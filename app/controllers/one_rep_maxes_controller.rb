@@ -45,7 +45,9 @@ class OneRepMaxesController < ApplicationController
         format.json { render json: @one_rep_max.errors, status: :unprocessable_entity }
       end
     end
+
   end
+
 
   # DELETE /one_rep_maxes/1 or /one_rep_maxes/1.json
   def destroy
