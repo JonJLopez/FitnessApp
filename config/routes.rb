@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   resources :one_rep_maxes
   get 'about', to: 'pages#about'
   get 'trends', to: 'pages#trends'
+  get 'routine', to: 'pages#routine'
+  get 'routine2', to: 'pages#routine2'
+  get 'routine3', to: 'pages#routine3'
+  get 'routine4', to: 'pages#routine4'
   resources :one_rep_maxes
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
