@@ -7,3 +7,5 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+OneRepMax.create(DeadliftMax: 100, ShoulderPressMax: 100, SquatMax: 100, ChestPressMax: 100)

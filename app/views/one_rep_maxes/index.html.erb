@@ -1,0 +1,12 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>One Rep Maxes</h1>
+
+<div id="one_rep_maxes">
+  <% @one_rep_maxes.each do |one_rep_max| %>
+    <%= render one_rep_max %>
+    <p>
+      <%= link_to "Edit this one rep max", edit_one_rep_max_path(one_rep_max) %>
+    </p>
+  <% end %>
+</div>
