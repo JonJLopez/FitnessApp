@@ -1,6 +1,6 @@
 class OneRepMaxesController < ApplicationController
   before_action :set_one_rep_max, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!
   # GET /one_rep_maxes or /one_rep_maxes.json
   def index
     @one_rep_maxes = OneRepMax.all
