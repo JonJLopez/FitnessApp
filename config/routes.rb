@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers:{
+    
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+
+  }
   resources :one_rep_maxes
   get 'about', to: 'pages#about'
   get 'trends', to: 'pages#trends'
@@ -14,5 +20,10 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  root "pages#home"
+  
+    root "pages#home"
+
+
+
+
 end

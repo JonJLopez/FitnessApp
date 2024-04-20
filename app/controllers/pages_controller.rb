@@ -1,12 +1,11 @@
 class PagesController < ApplicationController
+before_action :authenticate_user!
+
   def home
-  end
+  end 
 
   def about
-  end
-
-  def trends
-  end
+  end 
 
   def routine
     @one_rep_max = OneRepMax.first
