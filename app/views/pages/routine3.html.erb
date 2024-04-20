@@ -1,0 +1,155 @@
+
+
+<script>new DataTable('#example');</script>
+
+<body>
+  <div class="container">
+  <p><%= link_to "Week 1", routine_path%> |
+  <%= link_to "Week 2", routine2_path%> |
+  <strong>Week 3</strong> |
+  <%= link_to "Week 4", routine4_path%></p>
+    <table id="example" class="table table-striped" style="width:100%">
+    <h3>Deadlift</h3>
+        <thead>
+            <tr>
+                <th>Set</th>
+                <th>Percentage</th>
+                <th>Reps</th>
+                <th>Weight (lbs)</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>75%</td>
+            <td>x5</td>
+            <td>
+              <%= @deadlift1 %>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>85%</td>
+            <td>x3</td>
+            <td><%=  @deadlift2 %></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>95%</td>
+            <td>x1+</td>
+            <td><%= @deadlift3 %></td>
+          </tr>
+        </tbody>
+    </table>
+    <h5>Cardio:</h5>
+    <p>Filler<p>
+
+    <table id="example" class="table table-striped" style="width:100%">
+    <h3>Shoulder Press</h3>
+        <thead>
+            <tr>
+                <th>Set</th>
+                <th>Percentage</th>
+                <th>Reps</th>
+                <th>Weight (lbs)</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>75%</td>
+            <td>x5</td>
+            <td>
+              <%= @shoulder1 %>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>85%</td>
+            <td>x3</td>
+            <td><%=  @shoulder2 %></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>95%</td>
+            <td>x1+</td>
+            <td><%= @shoulder3 %></td>
+          </tr>
+        </tbody>
+    </table>
+    <h5>Cardio:</h5>
+    <p>Filler<p>
+
+    <table id="example" class="table table-striped" style="width:100%">
+    <h3>Squat</h3>
+        <thead>
+            <tr>
+                <th>Set</th>
+                <th>Percentage</th>
+                <th>Reps</th>
+                <th>Weight (lbs)</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>75%</td>
+            <td>x5</td>
+            <td>
+              <%= @squat1 %>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>85%</td>
+            <td>x3</td>
+            <td><%=  @squat2 %></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>95%</td>
+            <td>x1+</td>
+            <td><%= @squat3 %></td>
+          </tr>
+        </tbody>
+    </table>
+    <h5>Cardio:</h5>
+    <p>Filler<p>
+
+    <table id="example" class="table table-striped" style="width:100%">
+    <h3>Bench Press</h3>
+        <thead>
+            <tr>
+                <th>Set</th>
+                <th>Percentage</th>
+                <th>Reps</th>
+                <th>Weight (lbs)</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>75%</td>
+            <td>x5</td>
+            <td>
+              <%= @chest1 %>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>85%</td>
+            <td>x3</td>
+            <td><%=  @chest2 %></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>95%</td>
+            <td>x1+</td>
+            <td><%= @chest3 %></td>
+          </tr>
+        </tbody>
+    </table>
+    <h5>Cardio:</h5>
+    <p>Filler<p>
+  </div>
+</body>

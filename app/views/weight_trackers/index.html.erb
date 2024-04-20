@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Weight trackers</h1>
+
+<div id="weight_trackers">
+  <% @weight_trackers.each do |weight_tracker| %>
+    <%= render weight_tracker %>
+    <p>
+      <%= link_to "Show this weight tracker", weight_tracker %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New weight tracker", new_weight_tracker_path %>

@@ -1,0 +1,3 @@
+class Weight < ApplicationRecord
+    # Your model logic here...
+  end

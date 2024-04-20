@@ -1,0 +1,2 @@
+class OneRepMax < ApplicationRecord
+end
