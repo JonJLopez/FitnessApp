@@ -1,11 +1,11 @@
 class PagesController < ApplicationController
-before_action :authenticate_user!
+before_action :authenticate_user!, except:[:about]
 
   def home
-  end 
+  end
 
   def about
-  end 
+  end
 
   def routine
     @one_rep_max = OneRepMax.first
