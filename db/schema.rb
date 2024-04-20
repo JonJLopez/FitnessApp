@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_20_153140) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_20_215201) do
   create_table "one_rep_maxes", force: :cascade do |t|
     t.integer "DeadliftMax"
     t.integer "ShoulderPressMax"
@@ -37,5 +37,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_20_153140) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "weight_trackers", force: :cascade do |t|
+    t.string "exercise"
+    t.integer "weight"
+    t.integer "reps"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_weight_trackers_on_user_id"
+  end
+
   add_foreign_key "one_rep_maxes", "users"
+  add_foreign_key "weight_trackers", "users"
 end
