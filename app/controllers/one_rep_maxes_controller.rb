@@ -3,7 +3,7 @@ class OneRepMaxesController < ApplicationController
   before_action :authenticate_user!
   # GET /one_rep_maxes or /one_rep_maxes.json
   def index
-    @one_rep_maxes = OneRepMax.all
+    @one_rep_maxes = current_user.one_rep_maxes
   end
 
   # GET /one_rep_maxes/1 or /one_rep_maxes/1.json
