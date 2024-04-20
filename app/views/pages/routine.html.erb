@@ -41,9 +41,10 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio: 6 miles</h5>
+    <h5>Cardio: 4 miles</h5>
     <p>4x1 Mile with 90s Recovery<br>
-    Mile Pace: <%= @pace1 / 180 - 1 %>'<%= @pace1 % 60 %>"
+    Rep Mile Pace: <%= @pace1 / 180 - 1 %>'<%= @pace1 % 60 %>"<br>
+    Finishing Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
     <p>
 
     <table id="example" class="table table-striped" style="width:100%">
@@ -79,9 +80,9 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio: 6 miles</h5>
+    <h5>Cardio: 3 miles</h5>
     <p>
-    Miles Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
+    Mile Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
     <p>
 
     <table id="example" class="table table-striped" style="width:100%">
@@ -117,9 +118,11 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio:</h5>
+    <h5>Cardio: 4 miles</h5>
     <p>
-    Miles Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
+    6x400m with 2 mins recovery<br>
+    Mile Pace: <%= (@pace2 / 180).round %>' <%= @seconds % 60 %>"<br>
+    Finishing Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
     <p>
 
     <table id="example" class="table table-striped" style="width:100%">
@@ -155,9 +158,10 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio: 4 miles</h5>
-    <p>4x1 Mile with 90s Recovery<br>Mile Pace:
-      <%= @seconds / 60 %>
+    <h5>Cardio: 6 miles</h5>
     <p>
+    Mile Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
+    <p>
+
   </div>
 </body>

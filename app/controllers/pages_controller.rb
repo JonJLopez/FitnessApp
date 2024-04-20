@@ -28,7 +28,7 @@ before_action :authenticate_user!, except:[:about]
     @seconds = (@one_rep_max.cardioMin * 60) + @one_rep_max.cardioSec
 
     @pace1 = (@seconds * 1.05).round
-    @pace2 = (@seconds / 4 * 0.9).round
+    @pace2 = (@seconds * 0.9).round
   end
 
   def routine2
@@ -49,6 +49,9 @@ before_action :authenticate_user!, except:[:about]
     @chest1 = (@one_rep_max.ChestPressMax * 0.70 / 5.0).round * 5
     @chest2 = (@one_rep_max.ChestPressMax * 0.80 / 5.0).round * 5
     @chest3 = (@one_rep_max.ChestPressMax * 0.90 / 5.0).round * 5
+
+    @pace1 = (@seconds / 1.03).round
+    @pace2 = (@seconds * 0.865).round
   end
 
   def routine3
@@ -69,6 +72,9 @@ before_action :authenticate_user!, except:[:about]
     @chest1 = (@one_rep_max.ChestPressMax * 0.75 / 5.0).round * 5
     @chest2 = (@one_rep_max.ChestPressMax * 0.80 / 5.0).round * 5
     @chest3 = (@one_rep_max.ChestPressMax * 0.95 / 5.0).round * 5
+
+    @pace1 = (@seconds * 1.14).round
+    @pace2 = (@seconds / 3.125).round
   end
 
   def routine4
@@ -89,5 +95,7 @@ before_action :authenticate_user!, except:[:about]
     @chest1 = (@one_rep_max.ChestPressMax * 0.40 / 5.0).round * 5
     @chest2 = (@one_rep_max.ChestPressMax * 0.50 / 5.0).round * 5
     @chest3 = (@one_rep_max.ChestPressMax * 0.60 / 5.0).round * 5
+
+    @pace1 = (@seconds / 3.125).round
   end
 end

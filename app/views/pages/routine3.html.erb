@@ -41,8 +41,11 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio:</h5>
-    <p>Filler<p>
+    <h5>Cardio: 6 miles</h5>
+    <p>
+    25 min tempo run<br>
+    Mile Pace: <%= (@pace1 / 180).round - 1 %>' <%= @seconds % 60 %>"<br>
+    <p>
 
     <table id="example" class="table table-striped" style="width:100%">
     <h3>Shoulder Press</h3>
@@ -77,8 +80,10 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio:</h5>
-    <p>Filler<p>
+    <h5>Cardio: 5 miles</h5>
+    <p>
+    Mile Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
+    <p>
 
     <table id="example" class="table table-striped" style="width:100%">
     <h3>Squat</h3>
@@ -113,8 +118,10 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio:</h5>
-    <p>Filler<p>
+    <h5>Cardio: 4 miles</h5>
+    <p>
+    Mile Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
+    <p>
 
     <table id="example" class="table table-striped" style="width:100%">
     <h3>Bench Press</h3>
@@ -150,6 +157,10 @@
         </tbody>
     </table>
     <h5>Cardio:</h5>
-    <p>Filler<p>
+    <p>
+    4x800m with 3 mins recovery<br>
+    Mile Pace: <%= @pace2 / 60 %>' <%= @seconds % 60 %>"<br>
+    Finishing Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
+    <p>
   </div>
 </body>
