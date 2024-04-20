@@ -10,4 +10,4 @@
 
 User.create(email: "jon@email.com", password: "password", password_confirmation: "password")
 
-OneRepMax.create(DeadliftMax: 100, ShoulderPressMax: 100, SquatMax: 100, ChestPressMax: 100, user_id: User.first.id)
+OneRepMax.create(DeadliftMax: 100, ShoulderPressMax: 100, SquatMax: 100, ChestPressMax: 100, cardioMin: 10, cardioSec: 0, user_id: User.first.id)

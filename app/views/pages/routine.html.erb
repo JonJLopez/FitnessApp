@@ -41,8 +41,10 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio:</h5>
-    <p>Filler<p>
+    <h5>Cardio: 6 miles</h5>
+    <p>4x1 Mile with 90s Recovery<br>
+    Mile Pace: <%= @pace1 / 180 - 1 %>'<%= @pace1 % 60 %>"
+    <p>
 
     <table id="example" class="table table-striped" style="width:100%">
     <h3>Shoulder Press</h3>
@@ -77,8 +79,10 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio:</h5>
-    <p>Filler<p>
+    <h5>Cardio: 6 miles</h5>
+    <p>
+    Miles Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
+    <p>
 
     <table id="example" class="table table-striped" style="width:100%">
     <h3>Squat</h3>
@@ -114,7 +118,9 @@
         </tbody>
     </table>
     <h5>Cardio:</h5>
-    <p>Filler<p>
+    <p>
+    Miles Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
+    <p>
 
     <table id="example" class="table table-striped" style="width:100%">
     <h3>Bench Press</h3>
@@ -149,7 +155,9 @@
           </tr>
         </tbody>
     </table>
-    <h5>Cardio:</h5>
-    <p>Filler<p>
+    <h5>Cardio: 4 miles</h5>
+    <p>4x1 Mile with 90s Recovery<br>Mile Pace:
+      <%= @seconds / 60 %>
+    <p>
   </div>
 </body>
