@@ -12,25 +12,32 @@
   <% end %>
 
   <div>
-    <%= form.label :DeadliftMax, style: "display: block" %>
+    <div> Deadlift Max: </div>
     <%= form.number_field :DeadliftMax %>
   </div>
 
   <div>
-    <%= form.label :ShoulderPressMax, style: "display: block" %>
+  <div> Shoulder Press Max: </div>
     <%= form.number_field :ShoulderPressMax %>
   </div>
 
   <div>
-    <%= form.label :SquatMax, style: "display: block" %>
+  <div> Squat Max: </div>
     <%= form.number_field :SquatMax %>
   </div>
 
   <div>
-    <%= form.label :ChestPressMax, style: "display: block" %>
+    <div> Bench Press Max: </div>
     <%= form.number_field :ChestPressMax %>
   </div>
 
+  <div>
+  <div>Best 5k Time</div>
+  <span>Min: </span><%= form.number_field :cardioMin %>
+  <span>Sec: </span><%= form.number_field :cardioSec %>
+  </div>
+
+<br>
   <div>
     <%= form.submit %>
   </div>

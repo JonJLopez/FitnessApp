@@ -1,3 +1,427 @@
-<div class="container">
-  <h1>Welcome  <%= current_user.name %> </h1>
-</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        .widgets-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping if the widgets exceed the container's width */
+            gap: 20px; /* Add some space between widgets */
+            margin: 5px;
+        }
+
+        .element {
+            flex: 1; /* Each widget takes equal space */
+            min-width: 35%; /* Set a minimum width for each widget */
+            max-width: 50%; /* Each widget takes up to 50% of the container's width */
+            background-color: #f4f4f4; /* Light gray background color */
+            padding: 20px; /* Add some padding for spacing */
+            border-radius: 10px; /* Add border radius for rounded corners */
+            margin-bottom: 20px; /* Add margin to separate widgets */
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Additional styles for centering the modal and adding a background */
+            background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+        }
+
+        .modal label {
+            display: block;
+            margin-bottom: 10px; /* Add margin below each label */
+        }
+
+        .modal input[type="checkbox"] {
+            margin-left: 5px; /* Add margin to the right of the checkbox */
+        }
+
+        .widgets-container {
+            margin-top: 5px;
+        }
+
+        #filterBtn {
+            display: block;
+            margin: 5px auto 0;
+        }
+
+        #plannedTable {
+            display: none;
+        }
+
+        .element h2 {
+            text-align: center; /* Center the text */
+        }
+
+        .element > * {
+            margin: 5px; /* Add margin to all direct children of .element */
+        }
+
+        .seconds {
+            width: 100px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <main id="mainArea">
+        <h1>Welcome  <%= current_user.name %> </h1>
+        <button id="filterBtn">Filter Widgets</button>
+        <div class="widgets-container">
+            <div class="element">
+                <h2>Weight Lifting Tracker</h2>
+                <div class="exercise-input">
+                    <label for="exercise">Exercise:</label>
+                    <select id="exercise">
+                        <option value="deadlift">Deadlift</option>
+                        <option value="shoulder press">Shoulder Press</option>
+                        <option value="chest press">Chest Press</option>
+                        <option value="squat">Squat</option>
+                    </select>
+                </div>
+                <div class="set" id="defaultSet">
+                    <label for="defaultWeight">Weight (lbs):</label>
+                    <input type="number" class="weight" placeholder="Weight lifted">
+                    <label for="defaultReps">Reps:</label>
+                    <input type="number" class="reps" placeholder="Number of reps">
+                </div>
+                <div id="additionalSets">
+                    <!-- Additional sets will be added here -->
+                </div>
+                <button id="addSet">Add Set</button>
+                <button id="addExercise">Submit</button>
+            </div>
+            <div class="element">
+                <h2>Cardio Tracker</h2>
+                <div class="set" id="intensity">
+                    <label for="defaultIntensity">Miles Ran:</label>
+                    <input type="number" class="intensity" placeholder="Miles">
+                </div>
+                <div class="set" id="time">
+                    <label for="defaultTime">Time (Minutes, Seconds):</label>
+                    <input type="number" class="minutes" placeholder="Minutes">
+                    <input type="number" class="seconds" placeholder="Seconds" min="0" max="60">
+                </div>
+                <button id="addCardio">Submit</button>
+            </div>
+            <div class="element">
+                <h2>Planned Workout</h2>
+                <div class="exercise-input">
+                    <label>Exercise:</label>
+                    <select id="exerciseP">
+                        <option value="deadlift">Deadlift</option>
+                        <option value="shoulderpress">Shoulder Press</option>
+                        <option value="chestpress">Chest Press</option>
+                        <option value="squat">Squat</option>
+                    </select>
+                </div>
+                <div class="week-input">
+                    <label for="week">Week:</label>
+                    <select id="week">
+                        <option value="week1">Week 1</option>
+                        <option value="week2">Week 2</option>
+                        <option value="week3">Week 3</option>
+                        <option value="week4">Week 4</option>
+                    </select>
+                </div>
+                <button id="PlannedWorkout">Submit</button>
+                <div  id="plannedTable">
+                    <table id="example" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Set</th>
+                                <th>Percentage</th>
+                                <th>Reps</th>
+                                <th>Weight (lbs)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td id="percentage1"></td>
+                            <td id="reps1"></td>
+                            <td>
+                              <%= @deadlift1 %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td id="percentage2"></td>
+                            <td id="reps2"></td>
+                            <td><%=  @deadlift2 %></td>
+                          </tr>
+                          <tr>
+                            <td>3</td>
+                            <td id="percentage3"></td>
+                            <td id="reps3"></td>
+                            <td><%= @deadlift3 %></td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="element">
+                <h2>Most Recent Workout</h2>
+                <div class="workout-info">
+                    <p><strong>Exercise:</strong></p>
+                    <p><strong>Week:</strong></p>
+                    <p><strong>Date:</strong></p>
+                    <!-- Add more workout information as needed -->
+                </div>
+            </div>
+            <!-- Additional widgets can be added here -->
+        </div>
+    </main>
+</body>
+</html>
+<script>
+// FIlter elements on the dashboard
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("filterBtn").addEventListener("click", function(event) {
+        // Create a modal element
+        var modal = document.createElement("div");
+        modal.className = "modal";
+
+        // Create a modal content container
+        var modalContent = document.createElement("div");
+        modalContent.className = "modal-content";
+
+        // Create a checklist for each element
+        var elements = document.getElementsByClassName("element");
+        for (var i = 0; i < elements.length; i++) {
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = !elements[i].classList.contains("hidden");
+
+            var text = elements[i].innerHTML;
+            var parsedText = text.substring(text.indexOf("<h2>") + 4, text.lastIndexOf("</h2>"));
+            var label = document.createElement("label");
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(" " + parsedText));
+
+            modalContent.appendChild(label);
+        }
+
+        var applyButton = document.createElement("button");
+        applyButton.textContent = "Apply";
+        applyButton.style.float = "right";
+        applyButton.addEventListener("click", function() {
+            applyChanges(modalContent, elements);
+            modal.style.display = "none";
+        });
+
+        modalContent.appendChild(applyButton);
+
+        // Create a close button
+        var closeButton = document.createElement("button");
+        closeButton.textContent = "Cancel";
+        closeButton.style.float = "right";
+        closeButton.addEventListener("click", function() {
+            modal.style.display = "none";
+        });
+
+        // Append the close button to the modal content
+        modalContent.appendChild(closeButton);
+
+        // Append the modal content to the modal
+        modal.appendChild(modalContent);
+
+        // Append the modal to the document body
+        document.body.appendChild(modal);
+
+        document.body.style.overflow = "hidden";
+        // Display the modal
+        modal.style.display = "block";
+    });
+});
+
+// Function to apply changes made in the filterBtn function
+function applyChanges(modalContent, elements) {
+    var checkboxes = modalContent.querySelectorAll("input[type='checkbox']");
+    checkboxes.forEach(function(checkbox, index) {
+        if (checkbox.checked) {
+            elements[index].style.display = "block";
+        }
+        else {
+            elements[index].style.display = "none";
+        }
+    });
+}
+
+// Add a set to the Weight Widget
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("addSet").addEventListener("click", function(event) {
+      var additionalSetsDiv = document.getElementById("additionalSets");
+      var defaultSet = document.getElementById("defaultSet");
+      var newSet = defaultSet.cloneNode(true); // Clone the default set
+
+      // Clear input fields in the cloned set
+      newSet.querySelector(".weight").value = "";
+      newSet.querySelector(".reps").value = "";
+
+      additionalSetsDiv.appendChild(newSet); // Append the cloned set
+    });
+});
+
+// Add a new exercise to the Weight Widget
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("addExercise").addEventListener("click", function(event) {
+      var exerciseSelect = document.getElementById("exercise");
+      var exercise = exerciseSelect.value;
+      var weight = document.querySelector("#defaultSet .weight").value;
+      var reps = document.querySelector("#defaultSet .reps").value;
+
+      var additionalSets = [];
+      var additionalSetsDiv = document.getElementById("additionalSets");
+      var additionalSetsInputs = additionalSetsDiv.querySelectorAll(".set");
+
+      // Loop through additional sets and collect their data
+      additionalSetsInputs.forEach(function(set) {
+          var weight = set.querySelector(".weight").value;
+          var reps = set.querySelector(".reps").value;
+          additionalSets.push({
+              weight: weight,
+              reps: reps
+          });
+      });
+
+      // Prepare data to send to the server
+      var data = {
+          weight_tracker: {
+              exercise: exercise,
+              reps: reps,
+              weight: weight
+          },
+          additional_sets: additionalSets
+      };
+
+      var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+      fetch('/weight_trackers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Weight tracker created:', data);
+            // If needed, handle success behavior here
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // If needed, handle error behavior here
+        });
+
+        // Clear input fields
+        document.getElementById("exercise").value = "";
+        document.querySelector("#defaultSet .weight").value = "";
+        document.querySelector("#defaultSet .reps").value = "";
+        var additionalSetsDiv = document.getElementById("additionalSets");
+        additionalSetsDiv.innerHTML = ""; // Clear additional sets
+    });
+});
+
+// Add cardio exercise (save the data)
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("addCardio").addEventListener("click", function(event) {
+        var exerciseName = document.getElementById("exercise").value;
+        var defaultMinutes = document.querySelector("#time .minutes").value;
+        var defaultSeconds = document.querySelector("#time .seconds").value;
+        var defaultIntensity = document.querySelector("#intensity .intensity").value;
+
+        var set = [];
+
+        var minutes = parseInt(defaultMinutes);
+        var seconds = parseInt(defaultSeconds);
+        var intensity = parseInt(defaultIntensity);
+        set.push({
+            minutes: minutes,
+            seconds: seconds,
+            intensity: intensity
+        });
+
+        console.log("Exercise: " + exerciseName);
+        console.log("Sets:");
+        set.forEach(function(set, index) {
+            console.log("Set " + (index + 1) + ": Minutes " + set.minutes + ", Seconds " + set.seconds + ", Intensity " + set.intensity);
+        });
+
+        // Clear input fields
+        document.getElementById("exercise").value = "";
+        document.querySelector("#time .minutes").value = "";
+        document.querySelector("#time .seconds").value = "";
+        document.querySelector("#intensity .intensity").value = "";
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("PlannedWorkout").addEventListener("click", function(event) {
+        var exerciseSelect = document.getElementById("exerciseP");
+        var exerciseName = exerciseSelect.value;
+        var weekSelect = document.getElementById("week");
+        var week = weekSelect.value;
+        var p1, p2, p3, r1, r2, r3;
+
+        if (week == "week1") {
+            p1 = "65%";
+            p2 = "75%";
+            p3 = "85%";
+            r1 = "x5";
+            r2 = "x5";
+            r3 = "x5+";
+        }
+        else if (week == "week2") {
+            p1 = "70%";
+            p2 = "80%";
+            p3 = "90%";
+            r1 = "x3";
+            r2 = "x3";
+            r3 = "x3+";
+        }
+        else if (week == "week3") {
+            p1 = "75%";
+            p2 = "85%";
+            p3 = "95%";
+            r1 = "x5";
+            r2 = "x3";
+            r3 = "x1+";
+        }
+        else if (week == "week4") {
+            p1 = "40%";
+            p2 = "50%";
+            p3 = "60%";
+            r1 = "x5";
+            r2 = "x5";
+            r3 = "x5";
+        }
+
+        document.getElementById("percentage1").textContent = `${p1}`;
+        document.getElementById("percentage2").textContent = `${p2}`;
+        document.getElementById("percentage3").textContent = `${p3}`;
+        document.getElementById("reps1").textContent = `${r1}`;
+        document.getElementById("reps2").textContent = `${r2}`;
+        document.getElementById("reps3").textContent = `${r3}`;
+
+        var div = document.getElementById("plannedTable");
+        div.style.display = "block";
+    });
+});
+
+document.body.style.overflow = "auto";
+</script>

@@ -52,7 +52,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
-    resource.one_rep_maxes.create(DeadliftMax: 100, ShoulderPressMax: 100, SquatMax: 100, ChestPressMax: 100, user_id: :current_user)
+    resource.one_rep_maxes.create(DeadliftMax: 100, ShoulderPressMax: 100, SquatMax: 100, ChestPressMax: 100, cardioMin: 30, cardioSec: 0, user_id: :current_user)
     about_path
   end
 

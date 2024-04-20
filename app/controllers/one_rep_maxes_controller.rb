@@ -67,6 +67,6 @@ class OneRepMaxesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def one_rep_max_params
-      params.require(:one_rep_max).permit(:DeadliftMax, :ShoulderPressMax, :SquatMax, :ChestPressMax)
+      params.require(:one_rep_max).permit(:DeadliftMax, :ShoulderPressMax, :SquatMax, :ChestPressMax, :cardioMin, :cardioSec)
     end
 end

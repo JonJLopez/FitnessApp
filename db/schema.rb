@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_20_120220) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_20_153140) do
   create_table "one_rep_maxes", force: :cascade do |t|
     t.integer "DeadliftMax"
     t.integer "ShoulderPressMax"
@@ -19,6 +19,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_20_120220) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.integer "cardioMin"
+    t.integer "cardioSec"
     t.index ["user_id"], name: "index_one_rep_maxes_on_user_id"
   end
 
