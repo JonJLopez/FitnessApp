@@ -41,7 +41,7 @@
             width: 100%;
             padding: 8px;
             margin-top: 5px;
-            box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+            box-sizing: border-box; 
             border-radius: 5px;
             border: 1px solid #ccc;
         }
@@ -219,10 +219,10 @@ function getRecent() {
             if (data.exercise == "deadlift") {
                 name = "Deadlift";
             }
-            else if (data.exercise == "shoulderpress") {
+            else if (data.exercise == "shoulder press") {
                 name = "Shoulder Press";
             }
-            else if (data.exercise == "chestpress") {
+            else if (data.exercise == "chest press") {
                 name = "Chest Press";
             }
             else if (data.exercise == "squat") {
@@ -263,12 +263,22 @@ document.addEventListener("DOMContentLoaded", function() {
             modalContent.appendChild(label);
         }
 
+        var applyButton = document.createElement("button");
+        applyButton.textContent = "Apply";
+        applyButton.style.float = "right";
+        applyButton.addEventListener("click", function() {
+            applyChanges(modalContent, elements);
+            modal.style.display = "none";
+        });
+
+        modalContent.appendChild(applyButton);
+
         var closeButton = document.createElement("button");
         closeButton.textContent = "Close";
         closeButton.onclick = function() {
             modal.style.display = "none";
 
-        });
+        };
         
         // Append the close button to the modal content
 
@@ -349,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function() {
               'Content-Type': 'application/json',
               'X-CSRF-Token': csrfToken
           },
-      };
+      });
 
       var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
