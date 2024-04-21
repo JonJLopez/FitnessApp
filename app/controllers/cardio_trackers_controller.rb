@@ -19,6 +19,17 @@ class CardioTrackersController < ApplicationController
   def edit
   end
 
+  def most_recent
+    user_id = params[:id]
+    most_recent_entry = CardioTracker.where(user_id: user_id).order(created_at: :desc).first
+    
+    if most_recent_entry
+      render json: most_recent_entry
+    else
+      render json: { error: "Entry not found" }, status: :not_found
+    end
+  end
+
   # POST /cardio_trackers or /cardio_trackers.json
   def create
     @cardio_tracker = current_user.cardio_trackers.build(cardio_tracker_params)

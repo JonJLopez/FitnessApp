@@ -187,9 +187,13 @@
             <div class="element">
                 <h2>Most Recent Workout</h2>
                 <div class="workout-info">
+                    <p><strong>Weight: </strong></p>
                     <p id="eRecent"></p>
-                    <p id="wRecent"></p>
                     <p id="dRecent"></p>
+                    <p><strong>Cardio: </strong></p>
+                    <p id="cmRecent"></p>
+                    <p id="ctimeRecent"></p>
+                    <p id="cdRecent"></p>
                 </div>
             </div>
         </div>
@@ -224,10 +228,25 @@ function getRecent() {
             else if (data.exercise == "squat") {
                 name = "Squat";
             }
-            console.log(data);
 
             document.getElementById("eRecent").textContent = `Exercise: ${name}`;
             document.getElementById("dRecent").textContent = `Date: ${data.created_at.substring(0, 10)}`;
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+    fetch(`/cardio_trackers/most_recent?id=` + id)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("cmRecent").textContent = `Miles: ${data.miles}`;
+            document.getElementById("ctimeRecent").textContent = `Time: ${data.minutes} minutes, ${data.seconds} seconds`;
+            document.getElementById("cdRecent").textContent = `Date: ${data.created_at.substring(0, 10)}`;
             console.log(data);
         })
         .catch(error => {
@@ -458,6 +477,10 @@ document.getElementById("addCardio").addEventListener("click", function() {
     document.querySelector("#time .minutes").value = "";
     document.querySelector("#time .seconds").value = "";
     document.querySelector("#intensity .miles").value = "";
+
+    setTimeout(function() {
+        getRecent();
+    }, 400);
 });
     
 
