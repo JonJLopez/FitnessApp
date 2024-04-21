@@ -1,12 +1,76 @@
-<p style="color: green"><%= notice %></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Rep Maxes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1200px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin: 20px 0;
+        }
+        p.notice {
+            color: blue; /* Moved inline style here for better practice */
+            text-align: center;
+        }
+        #one_rep_maxes {
+            margin-top: 20px;
+        }
+        #one_rep_maxes p {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .btn, .btn-primary, input[type=submit] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover, .btn-primary:hover, input[type=submit]:hover {
+            background-color: #0056b3;
+        }
+        a.btn, a.btn-primary {
+            text-align: center;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="notice"><%= notice %></p>
 
-<h1>One Rep Maxes</h1>
+        <h1>One Rep Maxes</h1>
 
-<div id="one_rep_maxes">
-  <% @one_rep_maxes.each do |one_rep_max| %>
-    <%= render one_rep_max %>
-    <p>
-      <%= link_to "Edit this one rep max", edit_one_rep_max_path(one_rep_max) %>
-    </p>
-  <% end %>
-</div>
+        <div id="one_rep_maxes">
+            <% @one_rep_maxes.each do |one_rep_max| %>
+                <%= render one_rep_max %>
+                <p>
+                    <%= link_to "Edit this one rep max", edit_one_rep_max_path(one_rep_max), class: "btn btn-primary" %>
+                </p>
+            <% end %>
+        </div>
+    </div>
+</body>
+</html>
