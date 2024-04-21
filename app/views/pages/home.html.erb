@@ -68,12 +68,12 @@
             width: 100px;
         }
 
-
     </style>
 </head>
 <body>
     <main id="mainArea">
-        <h1>Welcome  <%= current_user.name %> </h1>
+        <h1 id="currentUser" style="display: none;"><%= current_user.id %></h1>
+        <h1>Hello  <%= current_user.name %></h1>
         <button id="filterBtn">Filter Widgets</button>
         <div class="widgets-container">
             <div class="element">
@@ -101,7 +101,7 @@
             </div>
             <div class="element">
                 <h2>Cardio Tracker</h2>
-                <div class="set" id="intensity">
+                <div class="set" id="intensity"> 
                     <label for="defaultIntensity">Miles Ran:</label>
                     <input type="number" class="intensity" placeholder="Miles">
                 </div>
@@ -132,6 +132,9 @@
                         <option value="week4">Week 4</option>
                     </select>
                 </div>
+                <div>
+                    <label id="maxValue"></label>
+                </div>
                 <button id="PlannedWorkout">Submit</button>
                 <div  id="plannedTable">
                     <table id="example" class="table table-striped" style="width:100%">
@@ -148,21 +151,21 @@
                             <td>1</td>
                             <td id="percentage1"></td>
                             <td id="reps1"></td>
-                            <td>
-                              <%= @deadlift1 %>
+                            <td id="weight1">
+                              
                             </td>
                           </tr>
                           <tr>
                             <td>2</td>
                             <td id="percentage2"></td>
                             <td id="reps2"></td>
-                            <td><%=  @deadlift2 %></td>
+                            <td id="weight2"></td>
                           </tr>
                           <tr>
                             <td>3</td>
                             <td id="percentage3"></td>
                             <td id="reps3"></td>
-                            <td><%= @deadlift3 %></td>
+                            <td id="weight3"></td>
                           </tr>
                         </tbody>
                     </table>
@@ -171,18 +174,51 @@
             <div class="element">
                 <h2>Most Recent Workout</h2>
                 <div class="workout-info">
-                    <p><strong>Exercise:</strong></p>
-                    <p><strong>Week:</strong></p>
-                    <p><strong>Date:</strong></p>
-                    <!-- Add more workout information as needed -->
+                    <p id="eRecent"></p>
+                    <p id="wRecent"></p>
+                    <p id="dRecent"></p>
                 </div>
             </div>
-            <!-- Additional widgets can be added here -->
         </div>
     </main>
 </body>
 </html>
 <script>
+function getRecent() {
+    var id = parseInt(document.getElementById("currentUser").textContent);
+    
+    fetch(`/weight_trackers/most_recent?id=` + id)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            var name;
+            if (data.exercise == "deadlift") {
+                name = "Deadlift";
+            }
+            else if (data.exercise == "shoulderpress") {
+                name = "Shoulder Press";
+            }
+            else if (data.exercise == "chestpress") {
+                name = "Chest Press";
+            }
+            else if (data.exercise == "squat") {
+                name = "Squat";
+            }
+            console.log(data);
+
+            document.getElementById("eRecent").textContent = `Exercise: ${name}`;
+            document.getElementById("dRecent").textContent = `Date: ${data.created_at.substring(0, 10)}`;
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
 // FIlter elements on the dashboard
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("filterBtn").addEventListener("click", function(event) {
@@ -200,13 +236,13 @@ document.addEventListener("DOMContentLoaded", function() {
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.checked = !elements[i].classList.contains("hidden");
-
+            
             var text = elements[i].innerHTML;
             var parsedText = text.substring(text.indexOf("<h2>") + 4, text.lastIndexOf("</h2>"));
             var label = document.createElement("label");
             label.appendChild(checkbox);
             label.appendChild(document.createTextNode(" " + parsedText));
-
+            
             modalContent.appendChild(label);
         }
 
@@ -227,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function() {
         closeButton.addEventListener("click", function() {
             modal.style.display = "none";
         });
-
+        
         // Append the close button to the modal content
         modalContent.appendChild(closeButton);
 
@@ -249,7 +285,7 @@ function applyChanges(modalContent, elements) {
     checkboxes.forEach(function(checkbox, index) {
         if (checkbox.checked) {
             elements[index].style.display = "block";
-        }
+        } 
         else {
             elements[index].style.display = "none";
         }
@@ -278,6 +314,7 @@ document.addEventListener("DOMContentLoaded", function() {
       var exercise = exerciseSelect.value;
       var weight = document.querySelector("#defaultSet .weight").value;
       var reps = document.querySelector("#defaultSet .reps").value;
+      var count = 0;
 
       var additionalSets = [];
       var additionalSetsDiv = document.getElementById("additionalSets");
@@ -291,6 +328,7 @@ document.addEventListener("DOMContentLoaded", function() {
               weight: weight,
               reps: reps
           });
+          count = count + 1;
       });
 
       // Prepare data to send to the server
@@ -300,7 +338,6 @@ document.addEventListener("DOMContentLoaded", function() {
               reps: reps,
               weight: weight
           },
-          additional_sets: additionalSets
       };
 
       var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -328,12 +365,49 @@ document.addEventListener("DOMContentLoaded", function() {
             // If needed, handle error behavior here
         });
 
+        for (let i = 0; i < count; i++){
+            setTimeout(function() {
+            var data = {
+                weight_tracker: {
+                    exercise: exercise,
+                    reps: additionalSets[i].reps,
+                    weight: additionalSets[i].weight
+                },
+            };
+            fetch('/weight_trackers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Weight tracker created:', data);
+                // If needed, handle success behavior here
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // If needed, handle error behavior here
+            });
+            }, 500);
+        }
+
         // Clear input fields
         document.getElementById("exercise").value = "";
         document.querySelector("#defaultSet .weight").value = "";
         document.querySelector("#defaultSet .reps").value = "";
         var additionalSetsDiv = document.getElementById("additionalSets");
         additionalSetsDiv.innerHTML = ""; // Clear additional sets
+        setTimeout(function() {
+        getRecent();
+        }, 400);
     });
 });
 
@@ -369,7 +443,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelector("#intensity .intensity").value = "";
     });
 });
-
+    
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("PlannedWorkout").addEventListener("click", function(event) {
         var exerciseSelect = document.getElementById("exerciseP");
@@ -411,16 +485,105 @@ document.addEventListener("DOMContentLoaded", function() {
             r3 = "x5";
         }
 
+        if (exerciseName == "deadlift") {
+            fetch('/one_rep_maxes/1.json') 
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var max = data.DeadliftMax;
+                    console.log('Deadlift Max:', max);
+                    // Now you can use deadliftMax in your JavaScript code
+                    document.getElementById('maxValue').textContent = `Max: ${max}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }   
+        else if (exerciseName == "shoulderpress") {
+            fetch('/one_rep_maxes/1.json') 
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var max = data.ShoulderPressMax;
+                    // Now you can use deadliftMax in your JavaScript code
+                    document.getElementById('maxValue').textContent = `Max: ${max}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        else if (exerciseName == "chestpress") {
+            fetch('/one_rep_maxes/1.json') 
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var max = data.ChestPressMax;
+                    // Now you can use deadliftMax in your JavaScript code
+                    document.getElementById('maxValue').textContent = `Max: ${max}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        else if (exerciseName == "squat") {
+            fetch('/one_rep_maxes/1.json') 
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var max = data.SquatMax;
+                    // Now you can use deadliftMax in your JavaScript code
+                    document.getElementById('maxValue').textContent = `Max: ${max}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+
+
+        setTimeout(function() {
+        var max = document.getElementById("maxValue").textContent;
+        var maxNumber = parseInt(max.replace("Max: ", "").trim());
+        var percent = parseInt(p1.replace("Max: ", "").trim()) / 100;
+        
+        var w1 = Math.round(maxNumber * percent);
+        var w2 = Math.round(maxNumber * (percent + 0.1));
+        var w3 = Math.round(maxNumber * (percent + 0.2));
+
         document.getElementById("percentage1").textContent = `${p1}`;
         document.getElementById("percentage2").textContent = `${p2}`;
         document.getElementById("percentage3").textContent = `${p3}`;
         document.getElementById("reps1").textContent = `${r1}`;
         document.getElementById("reps2").textContent = `${r2}`;
         document.getElementById("reps3").textContent = `${r3}`;
+        document.getElementById("weight1").textContent = `${w1}`;
+        document.getElementById("weight2").textContent = `${w2}`;
+        document.getElementById("weight3").textContent = `${w3}`;
 
         var div = document.getElementById("plannedTable");
         div.style.display = "block";
+        }, 400);
     });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    getRecent();
 });
 
 document.body.style.overflow = "auto";
