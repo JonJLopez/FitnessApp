@@ -10,12 +10,12 @@ class PagesController < ApplicationController
   def trends
     @exercises = current_user.weight_trackers.pluck(:exercise).uniq
     @data = {}
-
     @exercises.each do |exercise|
+
       @data[exercise] = current_user.weight_trackers.where(exercise: exercise)
                                                     .order(created_at: :desc)
                                                     .limit(30)
-                                                    .pluck(:created_at, :weight)
+                                                    .map { |entry| [entry.created_at, entry.weight / (1.0278 - (0.0278 * entry.reps)).round]}
                                                     .to_h
     end
 
@@ -23,7 +23,7 @@ class PagesController < ApplicationController
   end
 
   def routine
-    @one_rep_max = current_user.one_rep_maxes.last
+    @one_rep_max = current_user.one_rep_maxes.first
     @deadlift1 = (@one_rep_max.DeadliftMax * 0.65 / 5.0).round * 5
     @deadlift2 = (@one_rep_max.DeadliftMax * 0.75 / 5.0).round * 5
     @deadlift3 = (@one_rep_max.DeadliftMax * 0.85 / 5.0).round * 5
