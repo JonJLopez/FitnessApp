@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @cardio_tracker %>
+
+<div>
+  <%= link_to "Edit this cardio tracker", edit_cardio_tracker_path(@cardio_tracker) %> |
+  <%= link_to "Back to cardio trackers", cardio_trackers_path %>
+
+  <%= button_to "Destroy this cardio tracker", @cardio_tracker, method: :delete %>
+</div>

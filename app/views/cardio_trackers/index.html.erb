@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Cardio trackers</h1>
+
+<div id="cardio_trackers">
+  <% @cardio_trackers.each do |cardio_tracker| %>
+    <%= render cardio_tracker %>
+    <p>
+      <%= link_to "Show this cardio tracker", cardio_tracker %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New cardio tracker", new_cardio_tracker_path %>

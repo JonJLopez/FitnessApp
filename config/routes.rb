@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :cardio_trackers, only: [:create]
   resources :weight_trackers, only: [:create]
   devise_for :users, controllers:{
 

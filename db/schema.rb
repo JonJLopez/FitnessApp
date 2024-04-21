@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_20_215201) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_21_152124) do
+  create_table "cardio_trackers", force: :cascade do |t|
+    t.integer "miles"
+    t.integer "minutes"
+    t.integer "seconds"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cardio_trackers_on_user_id"
+  end
+
   create_table "one_rep_maxes", force: :cascade do |t|
     t.integer "DeadliftMax"
     t.integer "ShoulderPressMax"
@@ -47,6 +57,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_20_215201) do
     t.index ["user_id"], name: "index_weight_trackers_on_user_id"
   end
 
+  add_foreign_key "cardio_trackers", "users"
   add_foreign_key "one_rep_maxes", "users"
   add_foreign_key "weight_trackers", "users"
 end
