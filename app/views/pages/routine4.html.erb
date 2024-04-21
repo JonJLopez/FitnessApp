@@ -1,16 +1,80 @@
-
-
-<script>new DataTable('#example');</script>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Routine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1200px;
+        }
+        h3, h5 {
+            color: #007bff;
+            text-align: center;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1em;
+            background-color: white;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin: 10px 5px 10px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        p {
+            text-align: center;
+        }
+        .margin-top-5 {
+            margin-top: 5px;
+        }
+    </style>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+</head>
 <body>
-  <div class="container">
-  <p style="margin-top: 5px"><%= link_to "Week 1", routine_path, class:" btn btn-primary" %> |
-  <%= link_to "Week 2", routine2_path, class:" btn btn-primary" %> |
-  <%= link_to "Week 3", routine3_path, class:" btn btn-primary" %> |
-  <strong>Week 4</strong></p>
-    <table id="example" class="table table-striped" style="width:100%">
-    <h3>Deadlift</h3>
-        <thead>
+    <div class="container">
+        <div class="margin-top-5">
+        <style="margin-top: 5px"><%= link_to "Week 1", routine_path, class:" btn btn-primary" %> |
+        <%= link_to "Week 2", routine2_path, class:" btn btn-primary" %> |
+        <%= link_to "Week 3", routine3_path, class:" btn btn-primary" %> |
+  <strong>Week 4</strong>
+        </div>
+
+        <h3>Deadlift</h3>
+        <table id="example1" class="table table-striped">
+                <thead>
             <tr>
                 <th>Set</th>
                 <th>Percentage</th>
@@ -40,17 +104,18 @@
             <td><%= @deadlift3 %></td>
           </tr>
         </tbody>
-    </table>
-    <h5>Cardio: 6 miles</h5>
-    <p>
-    8x400m with 2 mins recovery<br>
+        </table>
+
+        <h5>Cardio: 6 miles</h5>
+        <p> 8x400m with 2 mins recovery<br>
     Mile Pace: <%= (@pace1 / 60).round %>' <%= @seconds % 60 %>"<br>
     Finishing Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
-    </p>
+        <p>
 
-    <table id="example" class="table table-striped" style="width:100%">
-    <h3>Shoulder Press</h3>
-        <thead>
+
+        <h3>Shoulder Press</h3>
+        <table id="example2" class="table table-striped">
+                <thead>
             <tr>
                 <th>Set</th>
                 <th>Percentage</th>
@@ -80,14 +145,13 @@
             <td><%= @shoulder3 %></td>
           </tr>
         </tbody>
-    </table>
-    <h5>Cardio: 5 miles</h5>
-    <p>
-    Mile Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
-    <p>
+        </table>
 
-    <table id="example" class="table table-striped" style="width:100%">
-    <h3>Squat</h3>
+        <h5>Cardio: 5 miles</h5>
+        <p>Mile Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"</p>
+
+        <h3>Squat</h3>
+        <table id="example3" class="table table-striped">
         <thead>
             <tr>
                 <th>Set</th>
@@ -118,15 +182,14 @@
             <td><%= @squat3 %></td>
           </tr>
         </tbody>
-    </table>
-    <h5>Cardio: 3 miles</h5>
-    <p>
-    Mile Pace: <%= (@seconds / 180).round + 2 %>' <%= @seconds % 60 %>"
-    <p>
+        </table>
 
-    <table id="example" class="table table-striped" style="width:100%">
-    <h3>Bench Press</h3>
-        <thead>
+        <h5>Cardio: 3 miles</h5>
+        <p>Mile Pace: <%= (@pace1 / 60).round %>' <%= @seconds % 60 %>" </p>
+
+        <h3>Bench Press</h3>
+        <table id="example4" class="table table-striped">
+		<thead>
             <tr>
                 <th>Set</th>
                 <th>Percentage</th>
@@ -156,8 +219,22 @@
             <td><%= @chest3 %></td>
           </tr>
         </tbody>
-    </table>
-    <h5>Cardio: 6.2 miles </h5>
-    <p>10k time trial<p>
-  </div>
+        </table>
+
+        <h5>Cardio: 6.2 miles</h5>
+        <p>10k time trail </p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('table.table').DataTable({
+              "paging": false
+				      "info": false
+            	"searching": false
+            });
+        });
+    </script>
 </body>
+</html>
