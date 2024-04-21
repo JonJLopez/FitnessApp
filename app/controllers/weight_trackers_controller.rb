@@ -19,6 +19,17 @@ class WeightTrackersController < ApplicationController
   def edit
   end
 
+  def most_recent
+    user_id = params[:id]
+    most_recent_entry = WeightTracker.where(user_id: user_id).order(created_at: :desc).first
+    
+    if most_recent_entry
+      render json: most_recent_entry
+    else
+      render json: { error: "Entry not found" }, status: :not_found
+    end
+  end
+
   # POST /weight_trackers or /weight_trackers.json
   def create
     @weight_tracker = current_user.weight_trackers.build(weight_tracker_params)
