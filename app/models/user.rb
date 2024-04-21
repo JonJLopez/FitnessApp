@@ -7,4 +7,5 @@ class User < ApplicationRecord
 
   has_many :one_rep_maxes
   has_many :weight_trackers
+  has_many :cardio_trackers
 end

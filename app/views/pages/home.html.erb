@@ -115,8 +115,8 @@
             <div class="element">
                 <h2>Cardio Tracker</h2>
                 <div class="set" id="intensity"> 
-                    <label for="defaultIntensity">Miles Ran:</label>
-                    <input type="number" class="intensity" placeholder="Miles">
+                    <label for="defaultMiles">Miles Ran:</label>
+                    <input type="number" class="miles" placeholder="Miles">
                 </div>
                 <div class="set" id="time">
                     <label for="defaultTime">Time (Minutes, Seconds):</label>
@@ -195,15 +195,11 @@
         </div>
     </main>
 
-    <!-- All JavaScript code here -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        // JavaScript code remains unchanged from the original implementation
-        // Include your existing JavaScript handling for modals, adding sets, etc.
-    </script>
 </body>
 </html>
 <script>
+
+
 function getRecent() {
     var id = parseInt(document.getElementById("currentUser").textContent);
     
@@ -238,55 +234,54 @@ function getRecent() {
             console.error('Error fetching data:', error);
         });
 }
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("filterBtn").addEventListener("click", function(event) {
-        var modal = document.createElement("div");
-        modal.className = "modal";
-        modal.style.display = "block";
 
-        var modalContent = document.createElement("div");
-        modalContent.className = "modal-content";
+document.getElementById("filterBtn").addEventListener("click", function(event) {
+    var modal = document.createElement("div");
+    modal.className = "modal";
+    modal.style.display = "block";
 
-        var elements = document.getElementsByClassName("element");
-        for (var i = 0; i < elements.length; i++) {
-            var checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.checked = !elements[i].classList.contains("hidden");
-            
-            var text = elements[i].innerHTML;
-            var parsedText = text.substring(text.indexOf("<h2>") + 4, text.lastIndexOf("</h2>"));
-            var label = document.createElement("label");
-            label.appendChild(checkbox);
-            label.appendChild(document.createTextNode(" " + parsedText));
-            
+    var modalContent = document.createElement("div");
+    modalContent.className = "modal-content";
 
-            modalContent.appendChild(label);
-        }
-
-        var applyButton = document.createElement("button");
-        applyButton.textContent = "Apply";
-        applyButton.style.float = "right";
-        applyButton.addEventListener("click", function() {
-            applyChanges(modalContent, elements);
-            modal.style.display = "none";
-        });
-
-        modalContent.appendChild(applyButton);
-
-        var closeButton = document.createElement("button");
-        closeButton.textContent = "Close";
-        closeButton.onclick = function() {
-            modal.style.display = "none";
-
-        };
+    var elements = document.getElementsByClassName("element");
+    for (var i = 0; i < elements.length; i++) {
+        var checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = !elements[i].classList.contains("hidden");
         
-        // Append the close button to the modal content
+        var text = elements[i].innerHTML;
+        var parsedText = text.substring(text.indexOf("<h2>") + 4, text.lastIndexOf("</h2>"));
+        var label = document.createElement("label");
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(" " + parsedText));
+        
 
-        modalContent.appendChild(closeButton);
+        modalContent.appendChild(label);
+    }
 
-        modal.appendChild(modalContent);
-        document.body.appendChild(modal);
+    var applyButton = document.createElement("button");
+    applyButton.textContent = "Apply";
+    applyButton.style.float = "right";
+    applyButton.addEventListener("click", function() {
+        applyChanges(modalContent, elements);
+        modal.style.display = "none";
     });
+
+    modalContent.appendChild(applyButton);
+
+    var closeButton = document.createElement("button");
+    closeButton.textContent = "Close";
+    closeButton.onclick = function() {
+        modal.style.display = "none";
+
+    };
+    
+    // Append the close button to the modal content
+
+    modalContent.appendChild(closeButton);
+
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
 });
 
 
@@ -317,28 +312,27 @@ document.getElementById("addSet").addEventListener("click", function() {
 });
 
 // Add a new exercise to the Weight Widget
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("addExercise").addEventListener("click", function(event) {
-      var exerciseSelect = document.getElementById("exercise");
-      var exercise = exerciseSelect.value;
-      var weight = document.querySelector("#defaultSet .weight").value;
-      var reps = document.querySelector("#defaultSet .reps").value;
-      var count = 0;
+document.getElementById("addExercise").addEventListener("click", function(event) {
+    var exerciseSelect = document.getElementById("exercise");
+    var exercise = exerciseSelect.value;
+    var weight = document.querySelector("#defaultSet .weight").value;
+    var reps = document.querySelector("#defaultSet .reps").value;
+    var count = 0;
 
-      var additionalSets = [];
-      var additionalSetsDiv = document.getElementById("additionalSets");
-      var additionalSetsInputs = additionalSetsDiv.querySelectorAll(".set");
+    var additionalSets = [];
+    var additionalSetsDiv = document.getElementById("additionalSets");
+    var additionalSetsInputs = additionalSetsDiv.querySelectorAll(".set");
 
-      // Loop through additional sets and collect their data
-      additionalSetsInputs.forEach(function(set) {
-          var weight = set.querySelector(".weight").value;
-          var reps = set.querySelector(".reps").value;
-          additionalSets.push({
-              weight: weight,
-              reps: reps
-          });
-          count = count + 1;
-      });
+    // Loop through additional sets and collect their data
+    additionalSetsInputs.forEach(function(set) {
+        var weight = set.querySelector(".weight").value;
+        var reps = set.querySelector(".reps").value;
+        additionalSets.push({
+            weight: weight,
+            reps: reps
+        });
+        count = count + 1;
+    });
 
 
     // Prepare data to send to the server
@@ -348,22 +342,44 @@ document.addEventListener("DOMContentLoaded", function() {
             reps: reps,
             weight: weight
         },
-        additional_sets: additionalSets
     };
 
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+
     fetch('/weight_trackers', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-Token': csrfToken
-          },
-      });
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Weight tracker created:', data);
+        // If needed, handle success behavior here
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // If needed, handle error behavior here
+    });
 
-      var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-      fetch('/weight_trackers', {
+    for (let i = 0; i < count; i++){
+        setTimeout(function() {
+        var data = {
+            weight_tracker: {
+                exercise: exercise,
+                reps: additionalSets[i].reps,
+                weight: additionalSets[i].weight
+            },
+        };
+        fetch('/weight_trackers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -385,217 +401,205 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Error:', error);
             // If needed, handle error behavior here
         });
+        }, 500);
+    }
 
-        for (let i = 0; i < count; i++){
-            setTimeout(function() {
-            var data = {
-                weight_tracker: {
-                    exercise: exercise,
-                    reps: additionalSets[i].reps,
-                    weight: additionalSets[i].weight
-                },
-            };
-            fetch('/weight_trackers', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': csrfToken
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Weight tracker created:', data);
-                // If needed, handle success behavior here
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // If needed, handle error behavior here
-            });
-            }, 500);
-        }
-
-        // Clear input fields
-        document.getElementById("exercise").value = "";
-        document.querySelector("#defaultSet .weight").value = "";
-        document.querySelector("#defaultSet .reps").value = "";
-        var additionalSetsDiv = document.getElementById("additionalSets");
-        additionalSetsDiv.innerHTML = ""; // Clear additional sets
-        setTimeout(function() {
-        getRecent();
-        }, 400);
-    });
-
+    // Clear input fields
+    document.getElementById("exercise").value = "";
+    document.querySelector("#defaultSet .weight").value = "";
+    document.querySelector("#defaultSet .reps").value = "";
+    var additionalSetsDiv = document.getElementById("additionalSets");
+    additionalSetsDiv.innerHTML = ""; // Clear additional sets
+    setTimeout(function() {
+    getRecent();
+    }, 400);
 });
 
 // Add cardio exercise (save the data)
 document.getElementById("addCardio").addEventListener("click", function() {
-    var exerciseName = document.getElementById("exercise").value;
-    var defaultMinutes = document.querySelector("#time .minutes").value;
-    var defaultSeconds = document.querySelector("#time .seconds").value;
-    var defaultIntensity = document.querySelector("#intensity .intensity").value;
+    var mins = document.querySelector("#time .minutes").value;
+    var secs = document.querySelector("#time .seconds").value;
+    var miles = document.querySelector("#intensity .miles").value;
 
-    var set = {
-        minutes: parseInt(defaultMinutes),
-        seconds: parseInt(defaultSeconds),
-        intensity: parseInt(defaultIntensity)
+    var data = {
+        cardio_tracker: {
+            miles: miles,
+            seconds: secs,
+            minutes: mins
+        },
     };
 
-    console.log("Exercise: " + exerciseName);
-    console.log("Set: Minutes " + set.minutes + ", Seconds " + set.seconds + ", Intensity " + set.intensity);
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    fetch('/cardio_trackers', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cardio tracker created:', data);
+        // If needed, handle success behavior here
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // If needed, handle error behavior here
+    });
+    
     // Clear input fields after submission
     document.querySelector("#time .minutes").value = "";
     document.querySelector("#time .seconds").value = "";
-    document.querySelector("#intensity .intensity").value = "";
+    document.querySelector("#intensity .miles").value = "";
 });
     
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("PlannedWorkout").addEventListener("click", function(event) {
-        var exerciseSelect = document.getElementById("exerciseP");
-        var exerciseName = exerciseSelect.value;
-        var weekSelect = document.getElementById("week");
-        var week = weekSelect.value;
-        var p1, p2, p3, r1, r2, r3;
 
-        if (week == "week1") {
-            p1 = "65%";
-            p2 = "75%";
-            p3 = "85%";
-            r1 = "x5";
-            r2 = "x5";
-            r3 = "x5+";
-        }
-        else if (week == "week2") {
-            p1 = "70%";
-            p2 = "80%";
-            p3 = "90%";
-            r1 = "x3";
-            r2 = "x3";
-            r3 = "x3+";
-        }
-        else if (week == "week3") {
-            p1 = "75%";
-            p2 = "85%";
-            p3 = "95%";
-            r1 = "x5";
-            r2 = "x3";
-            r3 = "x1+";
-        }
-        else if (week == "week4") {
-            p1 = "40%";
-            p2 = "50%";
-            p3 = "60%";
-            r1 = "x5";
-            r2 = "x5";
-            r3 = "x5";
-        }
+document.getElementById("PlannedWorkout").addEventListener("click", function(event) {
+    var exerciseSelect = document.getElementById("exerciseP");
+    var exerciseName = exerciseSelect.value;
+    var weekSelect = document.getElementById("week");
+    var week = weekSelect.value;
+    var p1, p2, p3, r1, r2, r3;
 
-        if (exerciseName == "deadlift") {
-            fetch('/one_rep_maxes/1.json') 
-                .then(response => {
-                    if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    var max = data.DeadliftMax;
-                    console.log('Deadlift Max:', max);
-                    // Now you can use deadliftMax in your JavaScript code
-                    document.getElementById('maxValue').textContent = `Max: ${max}`;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }   
-        else if (exerciseName == "shoulderpress") {
-            fetch('/one_rep_maxes/1.json') 
-                .then(response => {
-                    if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    var max = data.ShoulderPressMax;
-                    // Now you can use deadliftMax in your JavaScript code
-                    document.getElementById('maxValue').textContent = `Max: ${max}`;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-        else if (exerciseName == "chestpress") {
-            fetch('/one_rep_maxes/1.json') 
-                .then(response => {
-                    if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    var max = data.ChestPressMax;
-                    // Now you can use deadliftMax in your JavaScript code
-                    document.getElementById('maxValue').textContent = `Max: ${max}`;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-        else if (exerciseName == "squat") {
-            fetch('/one_rep_maxes/1.json') 
-                .then(response => {
-                    if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    var max = data.SquatMax;
-                    // Now you can use deadliftMax in your JavaScript code
-                    document.getElementById('maxValue').textContent = `Max: ${max}`;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+    if (week == "week1") {
+        p1 = "65%";
+        p2 = "75%";
+        p3 = "85%";
+        r1 = "x5";
+        r2 = "x5";
+        r3 = "x5+";
+    }
+    else if (week == "week2") {
+        p1 = "70%";
+        p2 = "80%";
+        p3 = "90%";
+        r1 = "x3";
+        r2 = "x3";
+        r3 = "x3+";
+    }
+    else if (week == "week3") {
+        p1 = "75%";
+        p2 = "85%";
+        p3 = "95%";
+        r1 = "x5";
+        r2 = "x3";
+        r3 = "x1+";
+    }
+    else if (week == "week4") {
+        p1 = "40%";
+        p2 = "50%";
+        p3 = "60%";
+        r1 = "x5";
+        r2 = "x5";
+        r3 = "x5";
+    }
+    var id = parseInt(document.getElementById("currentUser").textContent);
+    var path = '/one_rep_maxes/' + id + '.json'
+
+    if (exerciseName == "deadlift") {
+        fetch(path) 
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                var max = data.DeadliftMax;
+                console.log('Deadlift Max:', max);
+                // Now you can use deadliftMax in your JavaScript code
+                document.getElementById('maxValue').textContent = `Max: ${max}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }   
+    else if (exerciseName == "shoulderpress") {
+        fetch(path) 
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                var max = data.ShoulderPressMax;
+                // Now you can use deadliftMax in your JavaScript code
+                document.getElementById('maxValue').textContent = `Max: ${max}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    else if (exerciseName == "chestpress") {
+        fetch(path) 
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                var max = data.ChestPressMax;
+                // Now you can use deadliftMax in your JavaScript code
+                document.getElementById('maxValue').textContent = `Max: ${max}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    else if (exerciseName == "squat") {
+        fetch(path) 
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                var max = data.SquatMax;
+                // Now you can use deadliftMax in your JavaScript code
+                document.getElementById('maxValue').textContent = `Max: ${max}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
 
 
-        setTimeout(function() {
-        var max = document.getElementById("maxValue").textContent;
-        var maxNumber = parseInt(max.replace("Max: ", "").trim());
-        var percent = parseInt(p1.replace("Max: ", "").trim()) / 100;
-        
-        var w1 = Math.round(maxNumber * percent);
-        var w2 = Math.round(maxNumber * (percent + 0.1));
-        var w3 = Math.round(maxNumber * (percent + 0.2));
+    setTimeout(function() {
+    var max = document.getElementById("maxValue").textContent;
+    var maxNumber = parseInt(max.replace("Max: ", "").trim());
+    var percent = parseInt(p1.replace("Max: ", "").trim()) / 100;
+    
+    var w1 = Math.round(maxNumber * percent);
+    var w2 = Math.round(maxNumber * (percent + 0.1));
+    var w3 = Math.round(maxNumber * (percent + 0.2));
 
-        document.getElementById("percentage1").textContent = `${p1}`;
-        document.getElementById("percentage2").textContent = `${p2}`;
-        document.getElementById("percentage3").textContent = `${p3}`;
-        document.getElementById("reps1").textContent = `${r1}`;
-        document.getElementById("reps2").textContent = `${r2}`;
-        document.getElementById("reps3").textContent = `${r3}`;
-        document.getElementById("weight1").textContent = `${w1}`;
-        document.getElementById("weight2").textContent = `${w2}`;
-        document.getElementById("weight3").textContent = `${w3}`;
+    document.getElementById("percentage1").textContent = `${p1}`;
+    document.getElementById("percentage2").textContent = `${p2}`;
+    document.getElementById("percentage3").textContent = `${p3}`;
+    document.getElementById("reps1").textContent = `${r1}`;
+    document.getElementById("reps2").textContent = `${r2}`;
+    document.getElementById("reps3").textContent = `${r3}`;
+    document.getElementById("weight1").textContent = `${w1}`;
+    document.getElementById("weight2").textContent = `${w2}`;
+    document.getElementById("weight3").textContent = `${w3}`;
 
-        var div = document.getElementById("plannedTable");
-        div.style.display = "block";
-        }, 400);
-    });
+    var div = document.getElementById("plannedTable");
+    div.style.display = "block";
+    }, 400);
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    getRecent();
-});
+getRecent();
 
 document.body.style.overflow = "auto";
 
