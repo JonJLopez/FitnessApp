@@ -1,2 +1,3 @@
 def trend
-end 
+
+end

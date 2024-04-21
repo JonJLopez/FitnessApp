@@ -1,1 +1,16 @@
-<h1>Trends</h1>
+<br>
+
+<div class="container">
+<% if @data.present? %>
+  <% @exercises.each do |exercise| %>
+    <h2><%= exercise.capitalize %> Chart</h2>
+    <% if @data[exercise].present? %>
+      <%= line_chart @data[exercise], xtitle: "Date", ytitle: "Weight" %>
+    <% else %>
+      <p>No data available for <%= exercise %>.</p>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>No workout data available.</p>
+<% end %>
+</div>
