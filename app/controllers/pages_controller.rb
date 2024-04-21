@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-before_action :authenticate_user!, except:[:about]
+  before_action :authenticate_user!, except:[:about]
 
   def home
   end
@@ -7,8 +7,23 @@ before_action :authenticate_user!, except:[:about]
   def about
   end
 
+  def trends
+    @exercises = current_user.weight_trackers.pluck(:exercise).uniq
+    @data = {}
+
+    @exercises.each do |exercise|
+      @data[exercise] = current_user.weight_trackers.where(exercise: exercise)
+                                                    .order(created_at: :desc)
+                                                    .limit(30)
+                                                    .pluck(:created_at, :weight)
+                                                    .to_h
+    end
+
+    Rails.logger.info("Data for @data: #{@data.inspect}")
+  end
+
   def routine
-    @one_rep_max = current_user.one_rep_maxes.first
+    @one_rep_max = current_user.one_rep_maxes.last
     @deadlift1 = (@one_rep_max.DeadliftMax * 0.65 / 5.0).round * 5
     @deadlift2 = (@one_rep_max.DeadliftMax * 0.75 / 5.0).round * 5
     @deadlift3 = (@one_rep_max.DeadliftMax * 0.85 / 5.0).round * 5
